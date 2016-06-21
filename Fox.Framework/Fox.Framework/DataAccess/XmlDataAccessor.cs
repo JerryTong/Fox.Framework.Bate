@@ -32,6 +32,60 @@ namespace Fox.Framework.DataAccess
         }
 
         /// <summary>
+        /// Xml Document To Collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> LoadCollection<T>(string filePath, string fileName)
+        {
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
+
+            filePath = Path.Combine(Environment.CurrentDirectory, filePath, fileName);
+
+            StreamReader reader = new StreamReader(filePath);
+            IEnumerable<T> response = (IEnumerable<T>)xs.Deserialize(reader);
+            reader.Close();
+            return response;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static T LoadXml<T>(string filePath)
+        {
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
+
+            filePath = Path.Combine(Environment.CurrentDirectory, DataFolder, filePath);
+
+            StreamReader reader = new StreamReader(filePath);
+            T response = (T)xs.Deserialize(reader);
+            reader.Close();
+            return response;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static T LoadXml<T>(string filePath, string fileName)
+        {
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
+
+            filePath = Path.Combine(Environment.CurrentDirectory, filePath, fileName);
+
+            StreamReader reader = new StreamReader(filePath);
+            T response = (T)xs.Deserialize(reader);
+            reader.Close();
+            return response;
+        }
+
+        /// <summary>
         /// Xml Document To DataTable.
         /// </summary>
         /// <param name="fileName"></param>
@@ -79,3 +133,4 @@ namespace Fox.Framework.DataAccess
     }
 
 }
+
