@@ -21,3 +21,25 @@ Example
 var model = XmlDataAccessor.LoadXml<T>(path, filename);
 var modelCollection = XmlDataAccessor.LoadCollection<T>(path, filename);
 ```
+
+###### ConfigAccessor
+```csharp
+* ConfigAccessor.LoadConfig<T>(path, filename);
+* ConfigAccessor.LoadConfig<T>(filename); //default path: Configurations\
+```
+Example
+```cssharp
+var config = ConfigAccessor.LoadConfig<Config>(@"..\..\App_Data", "Config.config");
+```
+
+
+## Commom
+
+###### Object Extenstion
+ToInt
+* string.ToInt(defualt = 0)
+```cssharp
+var value = "26".ToInt(); // 26
+var value2 = "a".ToInt(); // 0
+var value3 = "a".ToInt(-1); // -1
+```
