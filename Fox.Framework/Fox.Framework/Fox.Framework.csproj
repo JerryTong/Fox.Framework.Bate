@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Common\ObjectExtension.cs" />
     <Compile Include="DataAccess\ConfigAccessor.cs" />
     <Compile Include="DataAccess\DataTableAccessor.cs" />
     <Compile Include="DataAccess\XmlDataAccessor.cs" />

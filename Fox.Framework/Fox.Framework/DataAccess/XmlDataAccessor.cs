@@ -77,7 +77,10 @@ namespace Fox.Framework.DataAccess
         {
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-            filePath = Path.Combine(Environment.CurrentDirectory, filePath, fileName);
+            if(string.IsNullOrEmpty(filePath))
+                filePath = Path.Combine(Environment.CurrentDirectory, fileName);
+            else
+                filePath = Path.Combine(filePath, fileName);
 
             StreamReader reader = new StreamReader(filePath);
             T response = (T)xs.Deserialize(reader);

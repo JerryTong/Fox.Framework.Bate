@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<people>
+  <man name="Jerry">Hello World</man>
+  <man name="Chris">Hello Earth</man>
+</people>

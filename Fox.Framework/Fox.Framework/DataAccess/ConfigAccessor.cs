@@ -6,57 +6,48 @@ using System.Threading.Tasks;
 
 namespace Fox.Framework.DataAccess
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    namespace Fox.Framework.DataAccess
+    public class ConfigAccessor
     {
-        public class ConfigAccessor
+        private static string CONFIG_PATH = "Configurations";
+
+        /// <summary>
+        /// Register config path. Default: "/Configuration"
+        /// </summary>
+        /// <param name="path">New path.</param>
+        public static void RegisterConfigPath(string path)
         {
-            private static string CONFIG_PATH = "Configurations";
+            CONFIG_PATH = path;
+        }
 
-            /// <summary>
-            /// Register config path. Default: "/Configuration"
-            /// </summary>
-            /// <param name="path">New path.</param>
-            public static void RegisterConfigPath(string path)
+        /// <summary>
+        /// Load Config.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static T LoadConfig<T>(string config)
+        {
+            if (string.IsNullOrEmpty(config))
             {
-                CONFIG_PATH = path;
+                return default(T);
             }
 
-            /// <summary>
-            /// Load Config.
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="config"></param>
-            /// <returns></returns>
-            public static T LoadConfig<T>(string config)
-            {
-                if (string.IsNullOrEmpty(config))
-                {
-                    return default(T);
-                }
+            return LoadConfig<T>(CONFIG_PATH, config);
+        }
 
-                return LoadConfig<T>(CONFIG_PATH, config);
+        public static T LoadConfig<T>(string path, string config)
+        {
+            if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(config))
+            {
+                return default(T);
             }
 
-            public static T LoadConfig<T>(string path, string config)
-            {
-                if (string.IsNullOrEmpty(path) || string.IsNullOrEmpty(config))
-                {
-                    return default(T);
-                }
+            return InternalLoadConfig<T>(path, config);
+        }
 
-                return InternalLoadConfig<T>(path, config);
-            }
-
-            private static T InternalLoadConfig<T>(string path, string config)
-            {
-                return XmlDataAccessor.LoadXml<T>(path, config);
-            }
+        private static T InternalLoadConfig<T>(string path, string config)
+        {
+            return XmlDataAccessor.LoadXml<T>(path, config);
         }
     }
 
