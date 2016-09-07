@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Fox.Framework.Test.DataAccessTest
 {
@@ -26,12 +27,44 @@ namespace Fox.Framework.Test.DataAccessTest
         [TestMethod]
         public void TestLoadXmlData()
         {
-            People actual = XmlDataAccessor.LoadXml<People>(@"..\..\App_Data", "People.xml");
-
+            var fields = typeof(Pokemon).GetFields();
+            List<Pokemon> actual = XmlDataAccessor.LoadCollectionWithTable<Pokemon>("PokemonData.xml").ToList();
+            
             Assert.IsNotNull(actual);
-            Assert.IsTrue(actual.Man != null);
-            Assert.AreEqual("Jerry", actual.Man[0].Name);
-            Assert.AreEqual("Hello World", actual.Man[0].Description);
+            Assert.IsTrue(actual!= null);
+            Assert.AreEqual(1, actual[0].Id);
+            Assert.AreEqual("妙蛙種子", actual[0].Name);
+        }
+
+        [TestMethod]
+        public void TestSaveXmlData()
+        {
+            bool success = false;
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Id", typeof(int));
+                dt.Columns.Add("Name", typeof(string));
+
+                DataRow newdr = dt.NewRow();
+                newdr["Id"] = 1;
+                newdr["Name"] = "妙蛙種子";
+                DataRow newdr2 = dt.NewRow();
+                newdr2["Id"] = 2;
+                newdr2["Name"] = "妙蛙草";
+
+                dt.Rows.Add(newdr);
+                dt.Rows.Add(newdr2);
+
+                XmlDataAccessor.Save(dt, "PokemonData.xml");
+                success = true;
+            }
+            catch(Exception ex)
+            {
+                success = false;
+            }
+
+            Assert.IsTrue(success == true);
         }
     }
 }

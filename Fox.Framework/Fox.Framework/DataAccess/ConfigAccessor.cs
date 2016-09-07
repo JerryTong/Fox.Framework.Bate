@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Fox.Framework.DataAccess
                 return default(T);
             }
 
-            return LoadConfig<T>(CONFIG_PATH, config);
+            return LoadConfig<T>(Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, CONFIG_PATH), config);
         }
 
         public static T LoadConfig<T>(string path, string config)

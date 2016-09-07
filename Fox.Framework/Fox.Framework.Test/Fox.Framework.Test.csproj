@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -58,6 +59,7 @@
     <Compile Include="DataAccessTest\DataAccessTest.cs" />
     <Compile Include="DataAccessTest\Model\Config.cs" />
     <Compile Include="DataAccessTest\Model\People.cs" />
+    <Compile Include="DataAccessTest\Model\Pokemon.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
