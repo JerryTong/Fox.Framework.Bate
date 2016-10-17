@@ -43,6 +43,7 @@ namespace Fox.Framework.DataAccess
                 return default(T);
             }
 
+            path = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, CONFIG_PATH, path);
             return InternalLoadConfig<T>(path, config);
         }
 
