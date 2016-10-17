@@ -63,15 +63,24 @@ namespace Fox.Framework.DataAccess
                     }
                 }
 
-                // Mapping屬性繫結
+                // propertyInfo 屬性繫結
                 foreach (var propertyInfo in propAttrs)
                 {
                     if (propertyInfo.Value != null && columns.Contains(propertyInfo.Value.Name))
                     {
+                        // Customer Mapping屬性繫結
                         if (tmpDr[propertyInfo.Value.Name] != DBNull.Value)
                         {
                             // Fill the data into the property
                             propertyInfo.Key.SetValue(ob, Convert.ChangeType(tmpDr[propertyInfo.Value.Name], propertyInfo.Key.PropertyType), null);
+                        }
+                    }
+                    else if(columns.Contains(propertyInfo.Key.Name))
+                    {
+                        // Property name 屬性繫結]
+                        if (tmpDr[propertyInfo.Key.Name] != DBNull.Value)
+                        {
+                            propertyInfo.Key.SetValue(ob, Convert.ChangeType(tmpDr[propertyInfo.Key.Name], propertyInfo.Key.PropertyType), null);
                         }
                     }
                 }
@@ -83,7 +92,7 @@ namespace Fox.Framework.DataAccess
         }
 
         /// <summary>
-        /// 取得Mapping 屬性
+        /// 取得Customer Mapping 屬性
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
