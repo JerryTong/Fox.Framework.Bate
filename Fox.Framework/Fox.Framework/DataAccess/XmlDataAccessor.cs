@@ -14,6 +14,15 @@ namespace Fox.Framework.DataAccess
         private static string DataFolder = "App_Data";
 
         /// <summary>
+        /// Register config path. Default: "/Configuration"
+        /// </summary>
+        /// <param name="path">New path.</param>
+        public static void RegisterConfigPath(string path)
+        {
+            DataFolder = path;
+        }
+
+        /// <summary>
         /// Xml Document To Collection.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -41,7 +50,7 @@ namespace Fox.Framework.DataAccess
         {
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-            filePath = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, filePath, fileName);
+            filePath = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, DataFolder, filePath, fileName);
 
             StreamReader reader = new StreamReader(filePath);
             IEnumerable<T> response = (IEnumerable<T>)xs.Deserialize(reader);
@@ -78,9 +87,9 @@ namespace Fox.Framework.DataAccess
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
             if(string.IsNullOrEmpty(filePath))
-                filePath = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, fileName);
+                filePath = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, DataFolder, fileName);
             else
-                filePath = Path.Combine(filePath, fileName);
+                filePath = Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, DataFolder, filePath, fileName);
 
             StreamReader reader = new StreamReader(filePath);
             T response = (T)xs.Deserialize(reader);
