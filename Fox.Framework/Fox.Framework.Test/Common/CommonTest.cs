@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,5 +21,7 @@ namespace Fox.Framework.Test.Common
             Assert.AreEqual(0, str2.ToInt());
             Assert.AreEqual(-1, str2.ToInt(-1));
         }
+
+       
     }
 }

@@ -28,6 +28,43 @@ namespace Fox.Framework.DataAccess
         }
 
         /// <summary>
+        /// Collection to DataTable.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static DataTable ToDataTable<T>(List<T> items)
+        {
+            if(items == null)
+            {
+                return null;
+            }
+
+            DataTable dataTable = new DataTable(typeof(T).Name);
+            //Get all the properties
+            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo prop in Props)
+            {
+                //Setting column names as Property names
+                dataTable.Columns.Add(prop.Name, prop.PropertyType);
+            }
+
+            foreach (T item in items)
+            {
+                var values = new object[Props.Length];
+                for (int i = 0; i < Props.Length; i++)
+                {
+                    //inserting property values to datatable rows
+                    values[i] = Props[i].GetValue(item, null);
+                }
+                dataTable.Rows.Add(values);
+            }
+
+            //put a breakpoint here and check datatable
+            return dataTable;
+        }
+
+        /// <summary>
         /// DataTable 資料繫結
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -80,7 +117,10 @@ namespace Fox.Framework.DataAccess
                         // Property name 屬性繫結]
                         if (tmpDr[propertyInfo.Key.Name] != DBNull.Value)
                         {
-                            propertyInfo.Key.SetValue(ob, Convert.ChangeType(tmpDr[propertyInfo.Key.Name], propertyInfo.Key.PropertyType), null);
+                            if (propertyInfo.Key.PropertyType.IsEnum)
+                                propertyInfo.Key.SetValue(ob, Enum.Parse(propertyInfo.Key.PropertyType, Convert.ToString(tmpDr[propertyInfo.Key.Name])));
+                            else
+                                propertyInfo.Key.SetValue(ob, Convert.ChangeType(tmpDr[propertyInfo.Key.Name], propertyInfo.Key.PropertyType), null);
                         }
                     }
                 }

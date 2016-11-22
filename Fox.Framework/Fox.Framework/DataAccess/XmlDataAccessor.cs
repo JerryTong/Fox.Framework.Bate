@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace Fox.Framework.DataAccess
 {
@@ -14,7 +15,7 @@ namespace Fox.Framework.DataAccess
         private static string DataFolder = "App_Data";
 
         /// <summary>
-        /// Register config path. Default: "/Configuration"
+        /// Register config path. Default: "/App_Data"
         /// </summary>
         /// <param name="path">New path.</param>
         public static void RegisterConfigPath(string path)
@@ -160,7 +161,7 @@ namespace Fox.Framework.DataAccess
         {
             System.Xml.Serialization.XmlSerializer xsSubmit = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-            System.IO.StreamWriter writer = new System.IO.StreamWriter(System.IO.Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+            System.IO.TextWriter writer = new System.IO.StreamWriter(System.IO.Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
                                                                         DataFolder,
                                                                         file));
             xsSubmit.Serialize(writer, obj);
@@ -177,6 +178,34 @@ namespace Fox.Framework.DataAccess
         public static void Save<T>(string file, string root, object obj)
         {
             Save<T>(Path.Combine(root, file), obj);
+        }
+
+        /// <summary>
+        /// Collection save to xml with schema.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="file"></param>
+        public static void SaveWithSchema<T>(List<T> obj, string fileName)
+        {
+            SaveWithSchema<T>(obj, Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, DataFolder), fileName);
+        }
+
+        /// <summary>
+        /// Collection save to xml with schema.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="file"></param>
+        public static void SaveWithSchema<T>(List<T> obj, string root, string fileName)
+        {
+            if(obj == null)
+            {
+                throw new Exception("Save xml file error. The source can not null.");
+            }
+
+            DataTable dt = DataTableAccessor.ToDataTable<T>(obj);
+            Save(dt, root, fileName);
         }
 
         /// <summary>

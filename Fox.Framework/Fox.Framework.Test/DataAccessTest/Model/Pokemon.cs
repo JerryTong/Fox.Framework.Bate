@@ -14,5 +14,7 @@ namespace Fox.Framework.Test.DataAccessTest.Model
 
         [DataMapping("Name")]
         public string Name { get; set; }
+
+        public People People { get; set; }
     }
 }
