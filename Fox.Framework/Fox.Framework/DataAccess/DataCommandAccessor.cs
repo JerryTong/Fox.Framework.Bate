@@ -10,6 +10,7 @@ namespace Fox.Framework.DataAccess
     public class DataCommandAccessor
     {
         private static string CONFIG_PATH = "Configurations";
+        private static object objLock = new object();
 
         private static Dictionary<string, EntityDataCommend> m_EntityDataCommends;
         private static Dictionary<string, EntityDatabaseEnvironment> m_EntityDatabaseEnvironment;
@@ -23,7 +24,10 @@ namespace Fox.Framework.DataAccess
         {
             if(m_EntityDataCommends == null)
             {
-                BuildEntity();
+                lock (objLock)
+                {
+                    BuildEntity();
+                }
             }
 
             return m_EntityDataCommends[name];
@@ -34,6 +38,12 @@ namespace Fox.Framework.DataAccess
         /// </summary>
         private static void BuildEntity()
         {
+            // 避免重複建立
+            if(m_EntityDataCommends != null)
+            {
+                return;
+            }
+
             if(DatabaseConfigManager.Current != null)
             {
                 if (DatabaseConfigManager.Current.Environments != null
