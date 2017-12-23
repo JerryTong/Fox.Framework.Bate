@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Fox.Framework</RootNamespace>
     <AssemblyName>Fox.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,6 +50,7 @@
     <Compile Include="Configuration\DatabaseConfigManager.cs" />
     <Compile Include="Configuration\DataCommandConfigManager.cs" />
     <Compile Include="DataAccess\ConfigAccessor.cs" />
+    <Compile Include="DataAccess\DapperAccess.cs" />
     <Compile Include="DataAccess\DataCommandAccessor.cs" />
     <Compile Include="DataAccess\DataTableAccessor.cs" />
     <Compile Include="DataAccess\XmlDataAccessor.cs" />
